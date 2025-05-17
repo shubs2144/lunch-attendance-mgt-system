@@ -1,10 +1,13 @@
 ## ** Features**
 
-- Employee attendance marking (Office/Home/Leave)
+- Employee attendance marking (Office/Home/Leave)(only weekdays)
 - Admin dashboard for analytics
 - Chef notifications for lunch count
 - JWT authentication
 - CORS-enabled backend
+- Automated daily emails to chefs at 9:30 AM with office attendance count
+- SMTP integration with Gmail/Mailtrap
+- Weekend exclusion (no emails on Sat/Sun)
 
 ---
 
@@ -16,7 +19,7 @@
 | **Backend**    | Node.js, Express                     |
 | **Database**   | MongoDB Atlas                        |
 | **Deployment** | Netlify (Frontend), Render (Backend) |
-
+| **Email**      | SMTP integration with Gmail/Mailtrap |
 ---
 
 ## ** Setup Guide**
@@ -62,6 +65,24 @@ PORT=5000
 VITE_API_URL=http://localhost:5000
 ```
 
+
+
+### **5. Email Configuration**
+
+server/.env
+
+SMTP_HOST=smtp.gmail.com  # or sandbox.smtp.mailtrap.io for testing
+SMTP_PORT=587
+SMTP_EMAIL=your@gmail.com
+SMTP_PASSWORD=your-app-password  # Gmail requires app password - 2F validation
+FROM_EMAIL=no-reply@attendance.com
+FROM_NAME=Attendance System
+
+
+cd server
+npm install nodemailer
+
+
 ---
 
 ## \*\*📸 Screenshots
@@ -89,7 +110,13 @@ _Attendance trends and reports_
 ### **4. Chef Notification**
 
 ![Chef View](./client/public/screenshot/chefPage.png)  
+_Chef receiving daily count_
+
+### **4. Sample Email Received**
+
+![Sample Email](./client/public/screenshot/sampleEmailPage.png)  
 _Daily lunch count alert_
+
 
 ---
 
@@ -129,4 +156,5 @@ _Daily lunch count alert_
 | CORS errors     | Verify `cors()` middleware in backend |
 | MongoDB timeout | Check Atlas IP whitelist              |
 | JWT not working | Verify secret key consistency         |
-
+| Gmail blocking  | Enable "Less secure apps" or use App Password |
+| No emails on weekends | Verify cron syntax (1-5 = Mon-Fri)         |
