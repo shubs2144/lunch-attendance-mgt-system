@@ -12,6 +12,7 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 // Create Express app
 const app = express();
 
+
 // Middleware
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -39,5 +40,13 @@ app.get('/', (req, res) => {
 
 // Error handling middleware
 app.use(errorHandler);
+
+app.use(function (req, res, next) {
+res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
+res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+res.setHeader('Access-Control-Allow-Credentials', true);
+next();
+})
 
 module.exports = app;
